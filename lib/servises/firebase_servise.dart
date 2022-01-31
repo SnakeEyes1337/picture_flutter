@@ -2,6 +2,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:picture_flutter/servises/firestore_servises.dart';
+import 'package:picture_flutter/servises/user_sirvises.dart';
 
 class FirebaseServises{
   var _auth = FirebaseAuth.instance;
@@ -14,6 +16,19 @@ class FirebaseServises{
       } on FirebaseAuthException catch(e){
         Fluttertoast.showToast(msg: e.toString());
       }
+    }
+  }
+
+  Future<void> firebaseSignUp({required MyUser user, required String password, required bool validator}) async{
+    if(validator){
+      try{
+        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: user.email.toString(), password: password);
+        FirestoreServises().createNewUser(user);
+      }on FirebaseAuthException catch(e){
+        Fluttertoast.showToast(msg: e.toString());
+      }
+
     }
   }
 

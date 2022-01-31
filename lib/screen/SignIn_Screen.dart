@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:picture_flutter/screen/register_screen.dart';
 import 'package:picture_flutter/servises/firebase_servise.dart';
 
 class SignInPage extends StatelessWidget {
@@ -87,7 +88,15 @@ class SignInPage extends StatelessWidget {
                 },
                 child: Text("SignIn", style: TextStyle(fontSize: 16, color: Colors.white),),
                 padding: EdgeInsets.fromLTRB(100, 2, 100, 2),
-                color: Colors.red,)
+                color: Colors.red,),
+                SizedBox(height: 1.0,),
+                TextButton(onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterScreen()));
+                },
+                    child: Text("Doesn`t have  account? You can Register", style: TextStyle(
+                  color: Colors.grey, decoration: TextDecoration.underline
+                ),)
+                )
               ],
             ),
           ),

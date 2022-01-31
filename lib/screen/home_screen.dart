@@ -15,27 +15,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
     MyUser user = MyUser();
 
-  @override
-  void initState(){
-    super.initState();
-    FirebaseFirestore.instance.collection("users")
-        .doc("userId")
-        .get().then((value) {
 
-          setState(() {
-            this.user = MyUser.fromMap(value.data());
-          });
-        });
-
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar:AppBar(
-        title: FutureBuilder <DocumentSnapshot>(
+    return FutureBuilder <DocumentSnapshot>(
           future: FirebaseFirestore.instance.collection("users")
-              .doc("userId")
+              .doc(FirebaseAuth.instance.currentUser!.uid)
               .get(),
           builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot){
             if(snapshot.hasError){
@@ -46,22 +32,36 @@ class _HomePageState extends State<HomePage> {
             }
             if(snapshot.connectionState == ConnectionState.done){
               this.user=  MyUser.fromMap(snapshot.data);
-              return Text(user.name.toString());
+              return Scaffold(
+                appBar: AppBar(
+                  automaticallyImplyLeading: false,
+                  title: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(user.avatarUrl.toString()),
+                        radius: 20,
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Text(user.name.toString())
+                    ],
+                  ),
+                  actions: [
+                    IconButton(onPressed: (){
+                      FirebaseServises().firebaseLogout();
+                    },
+                        icon: Icon(Icons.logout))
+
+                  ],
+
+                ),
+              );
             }
 
-            return Text("Loading");
+            return Scaffold();
           },
-
-        ),
-       actions: [
-         IconButton(onPressed: (){
-           FirebaseServises().firebaseLogout();
-         },
-             icon: Icon(Icons.logout))
-
-       ],
-      ),
-
     );
   }
 }
