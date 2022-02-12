@@ -6,10 +6,10 @@ import 'package:picture_flutter/servises/user_sirvises.dart';
 
 class FirestoreServises{
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
+  final User? _currentUser  = FirebaseAuth.instance.currentUser;
   Future  getCurrentUser() async {
     MyUser user  = await  _firestore.collection("users")
-        .doc("userId")
+        .doc(_currentUser!.uid)
         .get().then((value) => MyUser.fromMap(value.data()));
     return user;
   }

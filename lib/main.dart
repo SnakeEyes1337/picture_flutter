@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 //import from lib
 import 'package:picture_flutter/screen/SignIn_Screen.dart';
 import 'package:picture_flutter/screen/home_screen.dart';
+import 'package:picture_flutter/screen/navigator_page_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: !snapshot.hasData? SignInPage() : HomePage()
+          home: snapshot.hasData? PageNavigatorScreen() : SignInPage()
         );
       }
     );
