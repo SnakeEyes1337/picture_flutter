@@ -4,8 +4,6 @@ import 'package:picture_flutter/servises/user_sirvises.dart';
 
 abstract class NavigatorPageState extends Equatable{
  const NavigatorPageState();
-
-
   List<Object> get props => [];
 }
 

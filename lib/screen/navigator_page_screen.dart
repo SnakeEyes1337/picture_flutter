@@ -6,6 +6,7 @@ import 'package:picture_flutter/bloc/pageNavigatorBloc/page_navigator_bloc.dart'
 import 'package:picture_flutter/bloc/pageNavigatorBloc/page_navigator_event.dart';
 import 'package:picture_flutter/bloc/pageNavigatorBloc/page_navigator_state.dart';
 import 'package:picture_flutter/screen/home_screen.dart';
+import 'package:picture_flutter/screen/profile_page.dart';
 
 class PageNavigatorScreen extends StatelessWidget {
   const PageNavigatorScreen({Key? key}) : super(key: key);
@@ -32,7 +33,7 @@ class PageNavigatorScreen extends StatelessWidget {
                      return HomePage(state.user);
                    }
                    if(state is ProfilePageState){
-                     return Center(child: CircularProgressIndicator(),);
+                     return ProfilePage(user: state.user);
                    }
                    if(state is AddingPageState){
                     return Center(child: Text("Adding Page"),);

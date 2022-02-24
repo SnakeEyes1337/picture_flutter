@@ -79,7 +79,7 @@ class RegisterScreen extends StatelessWidget {
            focusColor: Colors.white,
            hoverColor: Colors.white,
            hintStyle: TextStyle(color: Colors.white),
-           hintText: "Password",
+           hintText: "Name",
            enabledBorder: OutlineInputBorder(
                borderRadius: BorderRadius.circular(10),
                borderSide: BorderSide(color: Colors.white)
@@ -91,10 +91,10 @@ class RegisterScreen extends StatelessWidget {
        ),
        validator: (value){
          if(value!.isEmpty){
-           return "Enter your password";
+           return "Enter your Name";
          }
-         if(!RegExp(r"^.{6,}$").hasMatch(value)){
-           return "Enter validate password (min 6 symbols)";
+         if(!RegExp(r"^.{3,}$").hasMatch(value)){
+           return "Enter validate name (min 3 symbols)";
          }
        },
      );
