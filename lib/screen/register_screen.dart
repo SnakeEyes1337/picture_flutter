@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+
+import 'package:picture_flutter/bloc/sign_up_bloc/sign_up_state.dart';
+import 'package:picture_flutter/bloc/sign_up_bloc/sign_up_bloc.dart';
+import 'package:picture_flutter/bloc/sign_up_bloc/sign_up_event.dart';
 import 'package:picture_flutter/servises/firebase_servise.dart';
 import 'package:picture_flutter/servises/user_sirvises.dart';
 
@@ -102,36 +108,190 @@ class RegisterScreen extends StatelessWidget {
 
    @override
    Widget build(BuildContext context) {
-     return Scaffold(
-       backgroundColor: Colors.black,
-       body: Form(
-         key: _formKey,
-         child: Padding(
-           padding: const EdgeInsets.all(12.0),
-           child: Column(
+     return BlocProvider(
+       create: (_)=>SignUpBloc(),
+       child: Scaffold(
+         backgroundColor: Colors.black,
+         body: BlocListener<SignUpBloc, SignUpState>(
+           listener: (context,state){
+             if(state.status.isSubmissionSuccess){
+               ScaffoldMessenger.of(context).hideCurrentSnackBar();
+               showDialog(context: context,
+                   builder: (_)=>SuccessDialog());
+             }
+             if(state.status.isSubmissionInProgress){
+               ScaffoldMessenger.of(context)
+                 ..hideCurrentSnackBar()
+                 ..showSnackBar(
+                   const SnackBar(content: Text('Submitting...')));
+             }
+           },
+           child: Form(
+             key: _formKey,
+             child: Padding(
+               padding: const EdgeInsets.all(12.0),
+               child: Column(
 
-             mainAxisAlignment: MainAxisAlignment.center,
-             crossAxisAlignment: CrossAxisAlignment.center,
-             children: [emailTextEditing(),SizedBox(height: 12.0,),
-               nameTextEditing(), SizedBox(height: 12.0,),
-               passwordTextEditing(),SizedBox(height: 12.0,),
-               RaisedButton(onPressed: (){
-                 MyUser user = MyUser(
-                   email: _textEmailEditingController.text,
-                   name: _textNameEditingController.text,
-                 );
-                 FirebaseServises().firebaseSignUp(user: user, password:_textPasswordEditingController.text,
-                     validator: _formKey.currentState!.validate());
-                 Navigator.pop(context);
-               },
-                 child: Text("SignIn", style: TextStyle(fontSize: 16, color: Colors.white),),
-                 padding: EdgeInsets.fromLTRB(100, 2, 100, 2),
-                 color: Colors.red,),
+                 mainAxisAlignment: MainAxisAlignment.center,
+                 crossAxisAlignment: CrossAxisAlignment.center,
+                 children: [EmailInput(),SizedBox(height: 12.0,),
+                   DisplayNameInput(), SizedBox(height: 12.0,),
+                   PasswordInput(),SizedBox(height: 12.0,),
+                   SubmitButton()
+                   // RaisedButton(onPressed: (){
+                   //   // MyUser user = MyUser(
+                   //   //   email: _textEmailEditingController.text,
+                   //   //   name: _textNameEditingController.text,
+                   //   // );
+                   //   // FirebaseServises().firebaseSignUp(user: user, password:_textPasswordEditingController.text,
+                   //   //     validator: _formKey.currentState!.validate());
+                   //   // Navigator.pop(context);
+                   // },
+                   //   child: Text("SignIn", style: TextStyle(fontSize: 16, color: Colors.white),),
+                   //   padding: EdgeInsets.fromLTRB(100, 2, 100, 2),
+                   //   color: Colors.red,),
 
-             ],
+                 ],
+               ),
+             ),
            ),
          ),
        ),
      );
+  }
+}
+
+class EmailInput extends StatelessWidget {
+  const EmailInput({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpBloc , SignUpState >(
+        builder:(context, state){
+          return TextFormField(
+            initialValue:  state.email.value,
+            decoration: InputDecoration(
+              labelText: "Email",
+              errorText: state.email.invalid
+                  ? "Please ensure the email is valid"
+                  : null
+            ),
+            keyboardType: TextInputType.emailAddress,
+            onChanged: (value){
+              context.read<SignUpBloc>().add(EmailChanged(email: value));
+            },
+            textInputAction: TextInputAction.next,
+          );
+        } );
+  }
+}
+
+class PasswordInput extends StatelessWidget {
+  const PasswordInput({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpBloc , SignUpState>(
+        builder: (context , state){
+          return TextFormField(
+            initialValue: state.password.value,
+            decoration: InputDecoration(
+                labelText: "Password",
+                errorText: state.password.invalid
+                    ? "Please ensure the password is valid"
+                    : null
+            ),
+            onChanged: (value){
+              context.read<SignUpBloc>().add(PasswordChanged(password: value));
+            },
+          );
+        }
+    );
+  }
+}
+
+class DisplayNameInput extends StatelessWidget {
+  const DisplayNameInput({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpBloc , SignUpState>(
+        builder: (context , state){
+          return TextFormField(
+            initialValue: state.displayName.value,
+            decoration: InputDecoration(
+                labelText: "Display Name",
+                errorText: state.displayName.invalid
+                    ? "Please ensure the name is valid"
+                    : null
+            ),
+            onChanged: (value){
+              context.read<SignUpBloc>().add(DisplayNameChanged(displayName: value));
+            },
+          );
+        }
+    );
+  }
+}
+
+class SubmitButton extends StatelessWidget {
+  const SubmitButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignUpBloc, SignUpState>(
+        buildWhen: (previous, current) => previous.status != current.status,
+        builder: (context, state){
+          return  RaisedButton(onPressed: (){
+            state.status == FormzStatus.valid
+                ? context.read<SignUpBloc>().add(FormSubmitted())
+                :null;
+          },
+            child: Text("SignIn", style: TextStyle(fontSize: 16, color: Colors.white),),
+            padding: EdgeInsets.fromLTRB(100, 2, 100, 2),
+            color: Colors.red,);
+
+        }
+    );
+  }
+}
+
+
+
+class SuccessDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                const Icon(Icons.info),
+                const Flexible(
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      'Form Submitted Successfully!',
+                      softWrap: true,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            ElevatedButton(
+              child: const Text('OK'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
