@@ -38,6 +38,8 @@ class DisplayNameChanged extends SignUpEvent{
 
 class FormSubmitted extends SignUpEvent{}
 
+class FormFailure extends SignUpEvent{}
+
 
 
 

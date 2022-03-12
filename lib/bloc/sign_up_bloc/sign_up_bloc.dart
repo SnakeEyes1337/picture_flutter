@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
@@ -7,6 +8,8 @@ import 'package:picture_flutter/bloc/sign_up_bloc/sign_up_event.dart';
 import 'package:picture_flutter/models/formz_input_models/sign_in_models/display_name.dart';
 import 'package:picture_flutter/models/formz_input_models/sign_in_models/email.dart';
 import 'package:picture_flutter/models/formz_input_models/sign_in_models/password.dart';
+import 'package:picture_flutter/servises/firebase_servise.dart';
+import 'package:picture_flutter/servises/user_sirvises.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState>{
   SignUpBloc() : super(SignUpState()){
@@ -36,7 +39,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState>{
  void _onDisplayNameChanged(DisplayNameChanged event , Emitter<SignUpState> emit){
     final displayName= DisplayName.dirty(event.displayName);
     emit(state.copyWith(
-      displayName: displayName.valid ? displayName : DisplayName.pure(event.displayName)
+      displayName: displayName.valid ? displayName : DisplayName.pure(event.displayName),
+      status:  Formz.validate([state.email, state.password, displayName])
     ));
  }
 
@@ -49,13 +53,20 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState>{
       email: email,
       password: password,
       displayName: displayName,
-      status: Formz.validate([email, password,displayName])
+      status: Formz.validate([email,displayName, password])
     ));
     if(state.status.isValidated){
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
       await Future.delayed(Duration(seconds: 1));
-      emit(state.copyWith(status: FormzStatus.submissionSuccess));
+      MyUser user = MyUser(email: state.email.value, name: state.displayName.value );
+      FirebaseServises().firebaseSignUp(user: user, password:state.password.value  );
     }
+    if(state.status.isInvalid){
+      emit(state.copyWith(status: FormzStatus.submissionFailure));
+    }
+
  }
+
+
 
 }

@@ -7,7 +7,7 @@ class DisplayName extends FormzInput<String, EmailValidationError>{
   const DisplayName.pure([String value = ""]) : super.pure(value);
 
   static final _displayNameRegex = RegExp(
-      r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]{3,}'
+      r"^.{3,}$"
   );
 
   @override

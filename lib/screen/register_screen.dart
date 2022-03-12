@@ -17,94 +17,94 @@ class RegisterScreen extends StatelessWidget {
   TextEditingController _textNameEditingController = TextEditingController();
   TextEditingController _textPasswordEditingController = TextEditingController();
 
-   Widget emailTextEditing(){
-     return TextFormField(
-       controller:_textEmailEditingController,
-       keyboardType: TextInputType.emailAddress,
-       cursorColor: Colors.white,
-       style: TextStyle(color: Colors.white),
-       decoration: InputDecoration(
-           focusColor: Colors.white,
-           hoverColor: Colors.white,
-           hintStyle: TextStyle(color: Colors.white),
-           hintText: "Email",
-           enabledBorder: OutlineInputBorder(
-               borderRadius: BorderRadius.circular(10),
-               borderSide: BorderSide(color: Colors.white)
-           ),
-           border: OutlineInputBorder(
-               borderRadius: BorderRadius.circular(10),
-               borderSide: BorderSide(color: Colors.white)
-           )
-       ),
-       validator: (value){
-         if(value!.isEmpty){
-           return "Enter your email";
-         }
-         if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9_.-]+.[a-z]").hasMatch(value)){
-           return "Enter validate email";
-         }
-       },
-     );
-   }
-   Widget passwordTextEditing(){
-     return TextFormField(
-       controller:_textPasswordEditingController,
-       style: TextStyle(color: Colors.white),
-       cursorColor: Colors.white,
-       decoration: InputDecoration(
-           focusColor: Colors.white,
-           hoverColor: Colors.white,
-           hintStyle: TextStyle(color: Colors.white),
-           hintText: "Password",
-           enabledBorder: OutlineInputBorder(
-               borderRadius: BorderRadius.circular(10),
-               borderSide: BorderSide(color: Colors.white)
-           ),
-           border: OutlineInputBorder(
-               borderRadius: BorderRadius.circular(10),
-               borderSide: BorderSide(color: Colors.white)
-           )
-       ),
-       validator: (value){
-         if(value!.isEmpty){
-           return "Enter your password";
-         }
-         if(!RegExp(r"^.{6,}$").hasMatch(value)){
-           return "Enter validate password (min 6 symbols)";
-         }
-       },
-     );
-   }
-   Widget nameTextEditing(){
-     return TextFormField(
-       controller:_textNameEditingController,
-       style: TextStyle(color: Colors.white),
-       cursorColor: Colors.white,
-       decoration: InputDecoration(
-           focusColor: Colors.white,
-           hoverColor: Colors.white,
-           hintStyle: TextStyle(color: Colors.white),
-           hintText: "Name",
-           enabledBorder: OutlineInputBorder(
-               borderRadius: BorderRadius.circular(10),
-               borderSide: BorderSide(color: Colors.white)
-           ),
-           border: OutlineInputBorder(
-               borderRadius: BorderRadius.circular(10),
-               borderSide: BorderSide(color: Colors.white)
-           )
-       ),
-       validator: (value){
-         if(value!.isEmpty){
-           return "Enter your Name";
-         }
-         if(!RegExp(r"^.{3,}$").hasMatch(value)){
-           return "Enter validate name (min 3 symbols)";
-         }
-       },
-     );
-   }
+   // Widget emailTextEditing(){
+   //   return TextFormField(
+   //     controller:_textEmailEditingController,
+   //     keyboardType: TextInputType.emailAddress,
+   //     cursorColor: Colors.white,
+   //     style: TextStyle(color: Colors.white),
+   //     decoration: InputDecoration(
+   //         focusColor: Colors.white,
+   //         hoverColor: Colors.white,
+   //         hintStyle: TextStyle(color: Colors.white),
+   //         hintText: "Email",
+   //         enabledBorder: OutlineInputBorder(
+   //             borderRadius: BorderRadius.circular(10),
+   //             borderSide: BorderSide(color: Colors.white)
+   //         ),
+   //         border: OutlineInputBorder(
+   //             borderRadius: BorderRadius.circular(10),
+   //             borderSide: BorderSide(color: Colors.white)
+   //         )
+   //     ),
+   //     validator: (value){
+   //       if(value!.isEmpty){
+   //         return "Enter your email";
+   //       }
+   //       if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9_.-]+.[a-z]").hasMatch(value)){
+   //         return "Enter validate email";
+   //       }
+   //     },
+   //   );
+   // }
+   // Widget passwordTextEditing(){
+   //   return TextFormField(
+   //     controller:_textPasswordEditingController,
+   //     style: TextStyle(color: Colors.white),
+   //     cursorColor: Colors.white,
+   //     decoration: InputDecoration(
+   //         focusColor: Colors.white,
+   //         hoverColor: Colors.white,
+   //         hintStyle: TextStyle(color: Colors.white),
+   //         hintText: "Password",
+   //         enabledBorder: OutlineInputBorder(
+   //             borderRadius: BorderRadius.circular(10),
+   //             borderSide: BorderSide(color: Colors.white)
+   //         ),
+   //         border: OutlineInputBorder(
+   //             borderRadius: BorderRadius.circular(10),
+   //             borderSide: BorderSide(color: Colors.white)
+   //         )
+   //     ),
+   //     validator: (value){
+   //       if(value!.isEmpty){
+   //         return "Enter your password";
+   //       }
+   //       if(!RegExp(r"^.{6,}$").hasMatch(value)){
+   //         return "Enter validate password (min 6 symbols)";
+   //       }
+   //     },
+   //   );
+   // }
+   // Widget nameTextEditing(){
+   //   return TextFormField(
+   //     controller:_textNameEditingController,
+   //     style: TextStyle(color: Colors.white),
+   //     cursorColor: Colors.white,
+   //     decoration: InputDecoration(
+   //         focusColor: Colors.white,
+   //         hoverColor: Colors.white,
+   //         hintStyle: TextStyle(color: Colors.white),
+   //         hintText: "Name",
+   //         enabledBorder: OutlineInputBorder(
+   //             borderRadius: BorderRadius.circular(10),
+   //             borderSide: BorderSide(color: Colors.white)
+   //         ),
+   //         border: OutlineInputBorder(
+   //             borderRadius: BorderRadius.circular(10),
+   //             borderSide: BorderSide(color: Colors.white)
+   //         )
+   //     ),
+   //     validator: (value){
+   //       if(value!.isEmpty){
+   //         return "Enter your Name";
+   //       }
+   //       if(!RegExp(r"^.{3,}$").hasMatch(value)){
+   //         return "Enter validate name (min 3 symbols)";
+   //       }
+   //     },
+   //   );
+   // }
 
    @override
    Widget build(BuildContext context) {
@@ -125,6 +125,14 @@ class RegisterScreen extends StatelessWidget {
                  ..showSnackBar(
                    const SnackBar(content: Text('Submitting...')));
              }
+
+             if(state.status.isSubmissionFailure){
+               ScaffoldMessenger.of(context)
+                 ..hideCurrentSnackBar()
+                 ..showSnackBar(
+                     const SnackBar(content: Text('Fail...')));
+             }
+
            },
            child: Form(
              key: _formKey,
@@ -170,8 +178,20 @@ class EmailInput extends StatelessWidget {
         builder:(context, state){
           return TextFormField(
             initialValue:  state.email.value,
+            style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
-              labelText: "Email",
+                focusColor: Colors.white,
+                hoverColor: Colors.white,
+                hintStyle: TextStyle(color: Colors.white),
+                hintText: "Email",
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.white)
+                ),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.white)
+                ),
               errorText: state.email.invalid
                   ? "Please ensure the email is valid"
                   : null
@@ -195,8 +215,20 @@ class PasswordInput extends StatelessWidget {
         builder: (context , state){
           return TextFormField(
             initialValue: state.password.value,
-            decoration: InputDecoration(
-                labelText: "Password",
+            style: TextStyle(color: Colors.white),
+            decoration: InputDecoration(focusColor: Colors.white,
+                hoverColor: Colors.white,
+                hintStyle: TextStyle(color: Colors.white),
+                hintText: "Password",
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.white)
+                ),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.white)
+                )
+                ,
                 errorText: state.password.invalid
                     ? "Please ensure the password is valid"
                     : null
@@ -218,9 +250,21 @@ class DisplayNameInput extends StatelessWidget {
     return BlocBuilder<SignUpBloc , SignUpState>(
         builder: (context , state){
           return TextFormField(
+            style: TextStyle(color: Colors.white),
             initialValue: state.displayName.value,
             decoration: InputDecoration(
-                labelText: "Display Name",
+                focusColor: Colors.white,
+                hoverColor: Colors.white,
+                hintStyle: TextStyle(color: Colors.white),
+                hintText: "Display Name",
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.white)
+                ),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: Colors.white)
+                ),
                 errorText: state.displayName.invalid
                     ? "Please ensure the name is valid"
                     : null
@@ -243,9 +287,7 @@ class SubmitButton extends StatelessWidget {
         buildWhen: (previous, current) => previous.status != current.status,
         builder: (context, state){
           return  RaisedButton(onPressed: (){
-            state.status == FormzStatus.valid
-                ? context.read<SignUpBloc>().add(FormSubmitted())
-                :null;
+              context.read<SignUpBloc>().add(FormSubmitted());
           },
             child: Text("SignIn", style: TextStyle(fontSize: 16, color: Colors.white),),
             padding: EdgeInsets.fromLTRB(100, 2, 100, 2),
